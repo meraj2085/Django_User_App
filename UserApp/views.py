@@ -4,21 +4,26 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .serializer import UserSerializer
 from .models import Users
+# import json
 
 
 # Create your views here.
 @api_view(['GET', 'POST'])
 def Users_list(request, format=None):
-     if request.method == 'GET':
-          users = Users.objects.all()
-          serializer = UserSerializer(users, many=True)
-          return Response(serializer.data)
-     elif request.method == 'POST':
-          serializer = UserSerializer(data=request.data)
-          if serializer.is_valid():
-               serializer.save()
-               return Response(serializer.data, status=status.HTTP_201_CREATED)
-
+     try:
+          if request.method == 'GET':
+               users = Users.objects.all()
+               serializer = UserSerializer(users, many=True)
+               return Response(serializer.data)
+          elif request.method == 'POST':
+               # data = json.loads(request.data)
+               print(request.data)
+               serializer = UserSerializer(data=request.data)
+               if serializer.is_valid():
+                    serializer.save()
+                    return Response(serializer.data, status=status.HTTP_201_CREATED)
+     except Exception:
+          Response(Exception)
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def User_Details(request, id, format=None):
