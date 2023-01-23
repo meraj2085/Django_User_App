@@ -16,7 +16,6 @@ def Users_list(request, format=None):
                serializer = UserSerializer(users, many=True)
                return Response(serializer.data)
           elif request.method == 'POST':
-               # data = json.loads(request.data)
                print(request.data)
                serializer = UserSerializer(data=request.data)
                if serializer.is_valid():
