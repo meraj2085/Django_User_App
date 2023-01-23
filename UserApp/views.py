@@ -4,7 +4,6 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .serializer import UserSerializer
 from .models import Users
-# import json
 
 
 # Create your views here.
@@ -12,6 +11,14 @@ from .models import Users
 def Users_list(request, format=None):
      try:
           if request.method == 'GET':
+               # users = Users.objects.raw("SELECT * FROM UserApp_users")
+               # users = Users.objects.all() # Returns all items
+               # users = Users.objects.first() # Returns the first item
+               # users = Users.objects.get(UserName = "Meraj Hossain") # Returns the user with specific name
+               # users = Users.objects.filter(UserEmail = "meraj@gmail.com") # Filters specific user all rows
+               # users = Users.objects.exclude(UserEmail = "meraj@gmail.com") # Filters all user except one
+
+
                users = Users.objects.all()
                serializer = UserSerializer(users, many=True)
                return Response(serializer.data)
