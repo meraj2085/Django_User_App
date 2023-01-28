@@ -4,10 +4,12 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .serializer import UserSerializer
 from .models import Users
+from drf_yasg.utils import swagger_auto_schema
 
 
 # Create your views here.
 @api_view(['GET', 'POST'])
+# @swagger_auto_schema(operation_summary="Testing bro",operation_description='Getting all users') 
 def Users_list(request, format=None):
      try:
           if request.method == 'GET':
