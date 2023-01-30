@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     "UserApp",
     "rest_framework",
     'drf_yasg',
+    "ArticaleApp",
 ]
 
 MIDDLEWARE = [
