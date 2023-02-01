@@ -7,6 +7,7 @@ from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.generics import GenericAPIView
+import jwt
 
 # Create your views here.
 class AddReporter(GenericAPIView):
@@ -20,7 +21,8 @@ class AddReporter(GenericAPIView):
                 email=request.data['email']
             )
             serializer = ReporterSerializer(reporter, many=False)
-            return Response(serializer.data)
+            encoded_jwt = jwt.encode({"email": request.data['email']}, "1a2b3c4d5e6f", algorithm="HS256")
+            return Response({"token": encoded_jwt})
         except:
             message = {'message': 'Something went wrong'}
             return Response(message, status=status.HTTP_400_BAD_REQUEST)
