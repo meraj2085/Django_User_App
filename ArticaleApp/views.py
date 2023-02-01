@@ -28,11 +28,12 @@ class AddReporter(GenericAPIView):
 
 class AddArticle(GenericAPIView):
     serializer_class = ArticleSerializer
+    @swagger_auto_schema(operation_summary="Add article",operation_description='Adding new article in the Database')
     def post(self, request):
         try:
             article = Article.objects.create(
                 headline=request.data['headline'],
-                reporter_id=request.data['reporter_id']
+                reporter_id=request.data['reporter']
             )
             serializer = ArticleSerializer(article, many=False)
             return Response(serializer.data)
