@@ -5,9 +5,11 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
+from drf_yasg.utils import swagger_auto_schema
 
 # Create your views here.
 class AddReporter(APIView):
+    @swagger_auto_schema(operation_summary="Add reporter",operation_description='Adding new reporter in the database') 
     def post(self, request):
         try:
             reporter = Reporter.objects.create(
