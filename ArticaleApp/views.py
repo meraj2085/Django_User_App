@@ -26,9 +26,9 @@ def AddArticle(request):
     try:
         article = Article.objects.create(
             headline=request.data['headline'],
-            reporter=request.data['reporter']
+            reporter_id=request.data['reporter_id']
         )
-        serializer = ArticleSerializer(Article, many=False)
+        serializer = ArticleSerializer(article, many=False)
         return Response(serializer.data)
     except:
         message = {'message': 'Something went wrong'}
