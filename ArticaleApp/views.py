@@ -6,9 +6,11 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework.generics import GenericAPIView
 
 # Create your views here.
-class AddReporter(APIView):
+class AddReporter(GenericAPIView):
+    serializer_class = ReporterSerializer
     @swagger_auto_schema(operation_summary="Add reporter",operation_description='Adding new reporter in the database') 
     def post(self, request):
         try:
@@ -24,7 +26,8 @@ class AddReporter(APIView):
             return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
 
-class AddArticle(APIView):
+class AddArticle(GenericAPIView):
+    serializer_class = ArticleSerializer
     def post(self, request):
         try:
             article = Article.objects.create(
