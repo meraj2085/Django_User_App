@@ -10,7 +10,7 @@ class Department(models.Model):
 class Employees(models.Model):
      name = models.CharField(max_length=125)
      age = models.IntegerField()
-     department = models.ForeignKey(Department, on_delete=models.CASCADE)
+     department = models.ForeignKey(Department, on_delete=models.CASCADE, related_name="employees")
 
      def __str__(self):
           return self.name

@@ -5,6 +5,8 @@ from rest_framework.decorators import api_view
 from .serializer import UserSerializer
 from .models import Users
 from drf_yasg.utils import swagger_auto_schema
+from django.db import connection
+from django.http import HttpResponse
 
 
 # Create your views here.
@@ -13,18 +15,12 @@ from drf_yasg.utils import swagger_auto_schema
 def Users_list(request, format=None):
      try:
           if request.method == 'GET':
-               # users = Users.objects.all() # Returns all items
-               # users = Users.objects.first() # Returns the first item
-               # users = Users.objects.get(UserName = "Meraj Hossain") # Returns the user with specific name
-               # users = Users.objects.filter(UserEmail = "meraj@gmail.com") # Filters specific user all rows
-               # users = Users.objects.exclude(UserEmail = "meraj@gmail.com") # Filters all user except one
                # users = Users.objects.raw("SELECT * FROM UserApp_users")
-
-
-               users = Users.objects.all()
-               serializer = UserSerializer(users, many=True)
-               return Response(serializer.data)
-               return Response(users)
+               with connection.cursor() as cursor:
+                    cursor.execute('SELECT * FROM UserApp_users')
+                    row = cursor.fetchone()
+                    print(row)
+               return Response({"Hlw"})
           elif request.method == 'POST':
                print(request.data)
                serializer = UserSerializer(data=request.data)

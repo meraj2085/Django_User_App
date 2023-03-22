@@ -14,18 +14,32 @@ class AddReporter(GenericAPIView):
     serializer_class = ReporterSerializer
     @swagger_auto_schema(operation_summary="Add reporter",operation_description='Adding new reporter in the database') 
     def post(self, request):
-        try:
-            reporter = Reporter.objects.create(
-                first_name=request.data['first_name'],
-                last_name=request.data['last_name'],
-                email=request.data['email']
-            )
-            serializer = ReporterSerializer(reporter, many=False)
+            serializer = ReporterSerializer(data=request.data)
+            if not serializer.is_valid():
+                print(serializer.errors)
+                return Response({'message': "Something went wrong", "status": status.HTTP_400_BAD_REQUEST, "errors": serializer.errors})
+
+            serializer.save()
             encoded_jwt = jwt.encode({"email": request.data['email']}, "1a2b3c4d5e6f", algorithm="HS256")
             return Response({"token": encoded_jwt})
-        except:
-            message = {'message': 'Something went wrong'}
-            return Response(message, status=status.HTTP_400_BAD_REQUEST)
+    
+
+    def put(self, request, id):
+        try:
+            reporterObj = Reporter.get(id=id)
+            serializer = ReporterSerializer(reporterObj, data=request.data)
+            if not serializer.is_valid():
+                print(serializer.errors)
+                return Response({'message': "Something went wrong", "status": status.HTTP_400_BAD_REQUEST, "errors": serializer.errors})
+
+            serializer.save()
+            encoded_jwt = jwt.encode({"email": request.data['email']}, "1a2b3c4d5e6f", algorithm="HS256")
+            return Response({"token": encoded_jwt})
+        except Exception as e:
+            return Response({'message': "Invalid id", "status": status.HTTP_400_BAD_REQUEST})
+
+
+
 
 
 class AddArticle(GenericAPIView):

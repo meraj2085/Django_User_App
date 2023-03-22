@@ -11,7 +11,7 @@ class Reporter(models.Model):
 
 class Article(models.Model):
     headline = models.CharField(max_length=100)
-    pub_date = models.DateField(auto_now_add=True)
+    time = models.DateTimeField(auto_now_add=True, null=True)
     reporter = models.ForeignKey(Reporter, on_delete=models.CASCADE)
 
     def __str__(self):
