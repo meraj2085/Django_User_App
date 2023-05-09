@@ -56,3 +56,4 @@ class AddArticle(GenericAPIView):
         except:
             message = {'message': 'Something went wrong'}
             return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
